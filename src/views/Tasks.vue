@@ -9,7 +9,8 @@ import { refAutoReset } from "@vueuse/core";
 
   const search = ref('')
   const tasks = ref([])
-  const taskSaved = refAutoReset(false, 2000)
+  const taskSaved = refAutoReset(false, 3000)
+  const dialog = ref(false)
 
   const headers = [
     { title: 'Тип', align: 'start', key: 'type' },
@@ -59,14 +60,85 @@ import { refAutoReset } from "@vueuse/core";
     />
     <h1 class="pb-6">Задачи</h1>
     <v-sheet class="d-flex justify-space-between align-center pa-5">
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        hide-details
-        label="Поиск"
-        max-width="500px"
-        single-line
-      />
+      <div class="w-100 d-flex align-center">
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          class="pr-8"
+          hide-details
+          label="Поиск"
+          max-width="500px"
+          single-line
+        />
+        <v-dialog
+          v-model="dialog"
+          max-width="600"
+        >
+          <template v-slot:activator="{ props: activatorProps }">
+            <v-btn
+              class="text-none font-weight-regular"
+              prepend-icon="mdi-filter"
+              v-bind="activatorProps"
+              rounded="xs"
+              size="large"
+              text="Фильтрация"
+              variant="tonal"
+            />
+          </template>
+
+          <v-card
+            prepend-icon="mdi-filter"
+            title="Фильтрация"
+          >
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="6" sm="5">
+                  <v-select
+                    :items="['Задача', 'Ошибка', 'Требование']"
+                    label="Тип"
+                    required
+                  />
+                </v-col>
+                <v-col cols="6" sm="7">
+                  <v-text-field
+                    hint="начните ввод наименования проекта, чтобы появились подсказки"
+                    label="Проект"
+                  />
+                </v-col>
+                <v-col cols="12" sm="5">
+                  <v-select
+                    :items="['Зарегистрирован', 'В работе', 'На проверке', 'Закрыт']"
+                    label="Статус"
+                    required
+                  />
+                </v-col>
+
+                <v-col cols="6" sm="7">
+                  <v-text-field
+                    label="Исполнитель"
+                    required
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                text="Отмена"
+                variant="plain"
+                @click="dialog = false"
+              />
+              <v-btn
+                color="green"
+                text="Применить"
+                variant="flat"
+                @click="dialog = false"
+              />
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
       <v-dialog max-width="500">
         <template #activator="{ props: activatorProps }">
           <v-btn
