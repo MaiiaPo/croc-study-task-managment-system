@@ -186,8 +186,7 @@ import { refAutoReset } from "@vueuse/core";
       <template #item.id="{ item }">
         <v-dialog fullscreen="">
           <template #activator="{ props: activatorProps }">
-            <span v-bind="activatorProps">{{ item.id }}</span>
-
+            <span v-bind="activatorProps" style="cursor: pointer;">{{ item.id }}</span>
           </template>
 
           <template #default="{ isActive }">
