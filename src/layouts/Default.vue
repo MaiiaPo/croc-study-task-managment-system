@@ -14,8 +14,8 @@
             @click.stop="drawer = !drawer"
           />
           <v-toolbar-title>
-            <router-link to="/" class="text-decoration-none">
-              Faster Tasks
+            <router-link to="/" class="text-decoration-none title-link">
+              FASTER TASK
             </router-link>
           </v-toolbar-title>
         </template>
@@ -70,5 +70,8 @@
 </template>
 
 <style lang="scss" scoped>
+.title-link {
+  color: lightgreen;
+}
 
 </style>
