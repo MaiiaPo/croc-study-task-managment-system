@@ -7,6 +7,12 @@ import { refAutoReset } from "@vueuse/core";
   const errorIcon = 'mdi-radiobox-marked'
   const requirementIcon = 'mdi-checkbox-intermediate-variant'
 
+  const countPagesOptions = [
+    {value: 5, title: '5'},
+    {value: 10, title: '10'},
+    {value: -1, title: 'Показать всё'},
+  ]
+
   const search = ref('')
   const tasks = ref([])
   const taskSaved = refAutoReset(false, 3000)
@@ -178,13 +184,14 @@ import { refAutoReset } from "@vueuse/core";
       :headers="headers"
       :items="tasks"
       items-per-page-text="Строк"
+      :items-per-page-options="countPagesOptions"
       :search="search"
     >
       <template #item.type="{ item }">
         <v-icon :icon="item.type === 'Ошибка' ? errorIcon : item.type === 'Задача' ? taskIcon : requirementIcon" />
       </template>
       <template #item.id="{ item }">
-        <v-dialog fullscreen="">
+        <v-dialog max-width="800">
           <template #activator="{ props: activatorProps }">
             <span v-bind="activatorProps" style="cursor: pointer;">{{ item.id }}</span>
           </template>
